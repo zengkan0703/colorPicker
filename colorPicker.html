@@ -3,8 +3,247 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>色彩选择器</title>
+		<style>
+			body,div,p,input,button{
+				margin:0;
+				padding:0;
+			}
+			body{
+				text-align: center;
+			}
+			h1{
+				margin:50px auto;
+			}
+			.clear:after{
+				display:block;
+				content: "";
+				clear:both;
+			}
+			.color-picker>*{
+				float: left;
+			}
+			.color-picker{
+				display: inline-block;
+			}
+			.color-picker .panal{
+				width: 300px;
+				height: 300px;
+				border:2px #ccc solid;
+				position: relative;
+			}
+			.color-picker .panal canvas{
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				z-index:-1;
+			}
+			.color-picker  .target{
+				display: inline-block;
+				width: 14px;
+				height: 14px;
+				border:3px solid #000;
+				border-radius: 50%;
+				position: absolute;
+				left:50%;
+				margin-left: -10px;
+				margin-top: -10px;
+				cursor: pointer;
+			}
+			.color-picker .panal .target{
+				top: 50%;
+			}
+			/*默认状态下 中间的小圆圈是在顶部中央隐藏的*/
+			.color-picker .range .target{
+				display: none;
+			}
+			.color-picker .range{
+				width: 20px;
+				height: 300px;
+				margin:0 20px;
+				border:2px #ccc solid;
+				/*只改变h值给range设置渐变色*/
+				background: linear-gradient(to bottom ,hsl(0,100%,50%) 0%,hsl(72,100%,50%) 20%,hsl(144,100%,50%) 40%,hsl(216,100%,50%) 60%,hsl(288,100%,50%) 80%,hsl(360,100%,50%) 100%);
+				position:relative;
+			}
+			.color-picker .input-box .input>*{
+				float: left;
+			}
+			.color-picker .input-box label{
+				font-size: 20px;
+				line-height: 40px;
+				margin-right: 8px;
+				width: 15px;
+				margin-bottom: 11px;
+			}
+			.color-picker .input-box input{
+				width: 100px;
+				height: 40px;
+				line-height: 40px;
+				border:2px #ccc solid;
+				border-radius: 3px;
+				padding-left: 20px;
+				box-sizing: border-box;
+				font-size: 18px;
+			}
+			.color-picker .input-box .arrow-group{
+				display: inline-block;
+				width: 30px;
+				height: 40px;
+				border:2px #ccc solid;
+				border-radius: 3px;
+				margin-left: -2px;
+				box-sizing: border-box;
+			}
+			.color-picker .input-box .arrow-group i{
+				display: inline-block;
+				width: 100%;
+				height: 50%;
+				float: left;
+				cursor: pointer;
+			}
+			.color-picker .input-box .arrow-group i.addition{
+				background: url(arrow_addition.png) no-repeat;
+				background-size: 80% 100%;
+				background-position:  center -3px;
+			}
+			.color-picker .input-box .arrow-group i.addition:hover{
+				background-image:url(arrow_addition2.png);
+			}
+			.color-picker .input-box .arrow-group i.minus{
+				background: url(arrow_minus.png) no-repeat;
+				background-size: 80% 100%;
+				background-position:  center;
+			}
+			.color-picker .input-box .arrow-group i.minus:hover{
+				background-image:url(arrow_minus2.png);
+			}
+			.color-picker .input-box .warning{
+				display: inline-block;
+				line-height: 40px;
+				display: none;
+				color: red;
+			}
+			.outcome{
+				text-align: center;
+				line-height: 40px;
+				margin-top: 20px;
+			}
+			.outcome span{
+				display: inline-block;
+				width:150px;
+				height: 38px;
+				border: 1px solid #ccc;
+				vertical-align: middle;
+			}
+			.set{
+				line-height: 40px;
+				font-size: 18px;
+				margin:20px 0;
+				position: relative;
+				width: 430px;
+				margin:0 auto 30px;
+			}
+			.set input{
+				height: 40px;
+				border:1px solid #999;
+				border-radius: 3px;
+				vertical-align: middle;
+				padding-left: 20px;
+			}
+			.set button{
+				padding: 0 15px;
+				line-height: 40px;
+				border:none;
+				background: blue;
+				color: #fff;
+			}
+			.set .warning{
+				color: red;
+				font-size: 14px;
+				position: absolute;
+				top: -30px;
+				right:70px;
+				display: none;
+			}
+		</style>
 	</head>
 	<body>
-		
+		<h1>色彩选择器</h1>
+		<div class="set">
+			<label for="set-color">设置你想要的色值：</label>
+			<input type="text" id="set-color" placeholder="按照十六进制的写法">
+			<button>确定</button>
+			<span class="warning">格式不正确哦</span>
+		</div>
+		<div class="color-picker clear">
+			<div class="panal">
+				<canvas id="panal" width="300" height="300">你的浏览器不支持画布功能</canvas>
+				<span class="target"></span>
+			</div>
+			<div class="range">
+				<span class="target"></span>
+			</div>
+			<div class="input-box">
+				<p class="input clear rgb">
+					<label for="color-r">R</label>
+					<input type="text" id="color-r">
+					<span class="arrow-group">
+						<i class="addition"></i>
+						<i class="minus"></i>
+					</span>
+					<span class="warning">只能输入0~255之间的数字哦(◕ܫ◕)</span>
+				</p>
+				<p class="input clear rgb">
+					<label for="color-g">G</label>
+					<input type="text" id="color-g">
+					<span class="arrow-group">
+						<i class="addition"></i>
+						<i class="minus"></i>
+					</span>
+					<span class="warning">只能输入0~255之间的数字哦(◕ܫ◕)</span>
+				</p>
+				<p class="input clear rgb">
+					<label for="color-b">B</label>
+					<input type="text" id="color-b">
+					<span class="arrow-group">
+						<i class="addition"></i>
+						<i class="minus"></i>
+					</span>
+					<span class="warning">只能输入0~255之间的数字哦(◕ܫ◕)</span>
+				</p>
+				<p class="input clear hsl">
+					<label for="color-h">H</label>
+					<input type="text" id="color-h">
+					<span class="arrow-group">
+						<i class="addition"></i>
+						<i class="minus"></i>
+					</span>
+					<span class="warning">只能输入0~1之间的数字哦(◕ܫ◕)</span>
+				</p>
+				<p class="input clear hsl">
+					<label for="color-s">S</label>
+					<input type="text" id="color-s">
+					<span class="arrow-group">
+						<i class="addition"></i>
+						<i class="minus"></i>
+					</span>
+					<span class="warning">只能输入0~1之间的数字哦(◕ܫ◕)</span>
+
+				</p>
+				<p class="input clear hsl">
+					<label for="color-l">L</label>
+					<input type="text" id="color-l">
+					<span class="arrow-group">
+						<i class="addition"></i>
+						<i class="minus"></i>
+					</span>
+					<span class="warning">只能输入0~1之间的数字哦(◕ܫ◕)</span>
+
+				</p>
+			</div>
+		</div>
+		<div class="outcome">目前选中的颜色是  RGB：<span id="rgb"></span> css color: <span id="css-color"></span> HSL：<span id="hsl"></span><br/>这里的 HSL 用的是标准的写法，h取值0-360，s和l取值0-100%，和上面的HSL值有些区别</div>
+		<script src="https://cdn.bootcss.com/jquery/1.12.0/jquery.min.js"></script>
+		<script src="color.js"></script>
 	</body>
 </html>
