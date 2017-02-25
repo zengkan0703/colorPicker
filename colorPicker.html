@@ -35,7 +35,6 @@
 				position: absolute;
 				left: 0px;
 				right: 0px;
-				z-index:-1;
 			}
 			.color-picker  .target{
 				display: inline-block;
@@ -133,6 +132,7 @@
 				width:150px;
 				height: 38px;
 				border: 1px solid #ccc;
+				background: #ccc;
 				vertical-align: middle;
 			}
 			.set{
@@ -164,6 +164,16 @@
 				top: -30px;
 				right:70px;
 				display: none;
+			}
+			.arrow-group.percent{
+				position: relative;
+			}
+			.arrow-group.percent:before{
+				content: "%";
+				position: absolute;
+				left: -43px;
+				top: 5px;
+				font-size: 18px;
 			}
 		</style>
 	</head>
@@ -218,31 +228,31 @@
 						<i class="addition"></i>
 						<i class="minus"></i>
 					</span>
-					<span class="warning">只能输入0~1之间的数字哦(◕ܫ◕)</span>
+					<span class="warning">只能输入0~360之间的数字哦(◕ܫ◕)</span>
 				</p>
 				<p class="input clear hsl">
 					<label for="color-s">S</label>
 					<input type="text" id="color-s">
-					<span class="arrow-group">
+					<span class="arrow-group percent">
 						<i class="addition"></i>
 						<i class="minus"></i>
 					</span>
-					<span class="warning">只能输入0~1之间的数字哦(◕ܫ◕)</span>
+					<span class="warning">只能输入0~100之间的数字哦(◕ܫ◕)</span>
 
 				</p>
 				<p class="input clear hsl">
 					<label for="color-l">L</label>
 					<input type="text" id="color-l">
-					<span class="arrow-group">
+					<span class="arrow-group percent">
 						<i class="addition"></i>
 						<i class="minus"></i>
 					</span>
-					<span class="warning">只能输入0~1之间的数字哦(◕ܫ◕)</span>
+					<span class="warning">只能输入0~100之间的数字哦(◕ܫ◕)</span>
 
 				</p>
 			</div>
 		</div>
-		<div class="outcome">目前选中的颜色是  RGB：<span id="rgb"></span> css color: <span id="css-color"></span> HSL：<span id="hsl"></span><br/>这里的 HSL 用的是标准的写法，h取值0-360，s和l取值0-100%，和上面的HSL值有些区别</div>
+		<div class="outcome">目前选中的颜色是  css color: <span id="css-color"></span></div>
 		<script src="https://cdn.bootcss.com/jquery/1.12.0/jquery.min.js"></script>
 		<script src="color.js"></script>
 	</body>
